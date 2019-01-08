@@ -1,0 +1,9 @@
+solr:
+  image: liwang0513/solr
+  imageTag: latest
+  imagePullPolicy: "Always"
+  # Use this to set the resources available to each solr container
+  master:
+    resources: {}
+  slave:
+    resources: {}

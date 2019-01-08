@@ -1,0 +1,66 @@
+apiVersion: "apps/v1"
+kind: StatefulSet
+metadata:
+  name: "{{ .Release.Name }}-solr-master"
+  labels:
+    component: solr
+    solr-role: master
+spec:
+  # Select pods on release and component only, rather than all labels
+  # This means that the selector will match all pods from all versions of the chart when upgrading
+  serviceName: solr
+  selector:
+    matchLabels:
+      component: solr
+      solr-role: master
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: solr
+        solr-role: master
+    spec:
+      containers:
+        - name: solr-master
+          image: "{{ .Values.solr.image }}:{{ .Values.solr.imageTag }}"
+          imagePullPolicy: {{ .Values.solr.imagePullPolicy }}
+          ports:
+            - name: solr
+              containerPort: 8983
+          # The readiness and liveness probes run the same thing, but the liveness
+          # probe just waits a while before kicking in whereas the readiness probe
+          # starts straight away
+          readinessProbe:
+            httpGet: &probe
+              path: /solr/admin/info/system?wt=json
+              port: 8983
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: *probe
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          env:
+            - name: SOLR_HOME
+              value: /pivotal/solr-home
+            - name: SOLR_ROLE
+              value: master
+            - name: SOLR_HEAP
+              value: 1g
+          resources:
+{{ toYaml .Values.solr.master.resources | indent 12 }}
+          volumeMounts:
+            - name: solr-home
+              mountPath: /pivotal/solr-home
+      securityContext:
+        fsGroup: 1000
+  volumeClaimTemplates:
+  - metadata:
+      name: solr-home
+      annotations:
+        volume.beta.kubernetes.io/storage-class: standard
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

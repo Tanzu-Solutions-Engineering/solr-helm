@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: solr
+    solr-role: master
+  name: {{ .Release.Name }}-solr-master
+  namespace: default
+spec:
+  ports:
+  - name: solr-container
+    port: 8983
+    protocol: TCP
+    targetPort: 8983
+  selector:
+    component: solr
+    solr-role: master
+  sessionAffinity: None
+  type: ClusterIP
