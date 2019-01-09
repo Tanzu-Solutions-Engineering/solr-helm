@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: "{{ .Release.Name }}-solr-slave"
   labels:
+    release: {{ .Release.Name }}
     component: solr
     solr-role: slave
 spec:
@@ -11,12 +12,14 @@ spec:
   serviceName: solr
   selector:
     matchLabels:
+      release: {{ .Release.Name }}
       component: solr
       solr-role: slave
   replicas: 2
   template:
     metadata:
       labels:
+        release: {{ .Release.Name }}
         component: solr
         solr-role: slave
     spec:
