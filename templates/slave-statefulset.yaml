@@ -60,11 +60,11 @@ spec:
             - name: SOLR_ROLE
               value: slave
             - name: SOLR_HEAP
-              value: 1g
+              value: {{ .Values.solr.slave.heapSize }}
             - name: SOLR_MASTER_URL
               value: "http://{{ .Release.Name }}-solr-master:8983"
             - name: SOLR_REPLICATION_INTERVAL
-              value: "00:00:20"
+              value: {{ .Values.solr.slave.replicationInterval }}
           resources:
 {{ toYaml .Values.solr.slave.resources | indent 12 }}
           volumeMounts:

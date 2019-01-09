@@ -4,13 +4,16 @@ solr:
   imagePullPolicy: "Always"
   storageClass: standard
   master:
+    heapSize: 1g
     persistence:
       diskSize: 2Gi
     resources: {}
   slave:
+    heapSize: 1g
     persistence:
       diskSize: 2Gi
     resources: {}
+    replicationInterval: 00:00:20
 
 service:
   type: ClusterIP
