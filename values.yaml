@@ -2,8 +2,15 @@ solr:
   image: liwang0513/solr
   imageTag: latest
   imagePullPolicy: "Always"
-  # Use this to set the resources available to each solr container
+  storageClass: standard
   master:
+    persistence:
+      diskSize: 2Gi
     resources: {}
   slave:
+    persistence:
+      diskSize: 2Gi
     resources: {}
+
+service:
+  type: ClusterIP

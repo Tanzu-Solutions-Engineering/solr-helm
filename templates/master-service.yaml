@@ -18,4 +18,4 @@ spec:
     component: solr
     solr-role: master
   sessionAffinity: None
-  type: ClusterIP
+  type: {{ .Values.service.type }}
