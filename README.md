@@ -37,7 +37,7 @@ helm install solr-helm
 
 ## Smoke Test
 
-1. Edit Solr Master/Slave Service and Change Service Type from "type: ClusterIP" to “type: LoadBalancer”
+1. Edit Solr Master/Slave Service and Change Service Type from `type: ClusterIP` to `type: LoadBalancer`
 
 ```
 $ kubectl edit svc RELEASE_NAME-solr-master
