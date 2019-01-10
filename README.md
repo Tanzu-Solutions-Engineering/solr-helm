@@ -46,7 +46,7 @@ $ kubectl edit svc RELEASE_NAME-solr-master
 2. Load data:
 
 ```
-$ curl "http://{{MASTER_EXTERNAL_IP}}:8983/solr/test/update" -H "Content-Type: text/xml" --data-binary '
+$ curl "http://${MASTER_EXTERNAL_IP}:8983/solr/test/update" -H "Content-Type: text/xml" --data-binary '
 <add>
   <doc>
     <field name="authors">Patrick Eagar</field>
@@ -58,15 +58,15 @@ $ curl "http://{{MASTER_EXTERNAL_IP}}:8983/solr/test/update" -H "Content-Type: t
   </doc>
 </add>'
 
-$ curl "http://{{MASTER_EXTERNAL_IP}}:8983/solr/test/update" --data '<commit/>'
+$ curl "http://${MASTER_EXTERNAL_IP}:8983/solr/test/update" --data '<commit/>'
 ```
 
 3. Read data:
 
 ```
-$ curl "http://{{MASTER_EXTERNAL_IP}}:8983/solr/test/select?q=*:*"
+$ curl "http://${MASTER_EXTERNAL_IP}:8983/solr/test/select?q=*:*"
 
-$ curl "http://{{SLAVE_EXTERNAL_IP}}:8983/solr/test/select?q=*:*"
+$ curl "http://${SLAVE_EXTERNAL_IP}:8983/solr/test/select?q=*:*"
 ```
 
 # About this repository
